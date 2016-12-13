@@ -119,7 +119,7 @@ namespace IdentityServer4.Quickstart.UI.Controllers
                 if (client != null)
                 {
                     //TODO: the api changed here from the example - check here! - Befor the ByScope Method was called
-                    var resources = await _resourceStore.FindEnabledResourcesAsync(request.ScopesRequested);
+                    var resources = await _resourceStore.FindEnabledResourcesByScopeAsync(request.ScopesRequested);
                     if (resources != null && (resources.IdentityResources.Any() || resources.ApiResources.Any()))
                     {
                         return new ConsentViewModel(model, returnUrl, request, client, resources);

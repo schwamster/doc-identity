@@ -64,7 +64,12 @@ namespace doc_identity
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
 
                     // where to redirect to after login
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
@@ -75,7 +80,28 @@ namespace doc_identity
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "doc-stack-app-api"
+                    },
+                    AllowOfflineAccess=true
+                },
+
+                new Client
+                {
+                    ClientId = "doc-stack-app",
+                    ClientName = "doc-stack-app",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris =           { "http://localhost:4200/callback" },
+                    PostLogoutRedirectUris = { "http://localhost:4200/home" },
+                    AllowedCorsOrigins =     { "http://localhost:4200" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "doc-stack-app-api"
                     }
                 }
             };
