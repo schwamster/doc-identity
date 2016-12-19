@@ -4,6 +4,8 @@
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Authentication.Google": "1.1.0",
     "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.1.0",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
@@ -11,7 +13,8 @@
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
-    "Microsoft.NETCore.App": "1.1.0"
+    "Microsoft.NETCore.App": "1.1.0", 
+    "Microsoft.Extensions.PlatformAbstractions": "1.1.0"
   },
 
   "tools": {
@@ -46,7 +49,10 @@
   "publishOptions": {
     "include": [
       "wwwroot",
-      "web.config"
+      "**/*.cshtml",
+      "appsettings.json",
+      "web.config",
+      "Dockerfile"
     ]
   },
 

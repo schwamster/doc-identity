@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace doc_identity
 {
@@ -28,64 +29,11 @@ namespace doc_identity
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(IConfiguration config)
         {
+            var docStackAppHost = config["Identity:DocStackAppHost"];
             return new List<Client>
             {
-                new Client
-                {
-                    ClientId = "client",
-
-                    // no interactive user, use the clientid/secret for authentication
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-
-                    // secret for authentication
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-
-                    // scopes that client has access to
-                    AllowedScopes = { "doc-stack-app-api" }
-                },
-                new Client
-                {
-                    ClientId = "ro.client",
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-                    AllowedScopes = { "doc-stack-app-api" }
-                },
-                 // OpenID Connect implicit flow client (MVC)
-                new Client
-                {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-
-                    ClientSecrets =
-                    {
-                        new Secret("secret".Sha256())
-                    },
-
-                    // where to redirect to after login
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-
-                    // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5002" },
-
-                    AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "doc-stack-app-api"
-                    },
-                    AllowOfflineAccess=true
-                },
-
                 new Client
                 {
                     ClientId = "doc-stack-app",
@@ -93,9 +41,9 @@ namespace doc_identity
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris =           { "http://localhost:4200/callback" },
-                    PostLogoutRedirectUris = { "http://localhost:4200/home" },
-                    AllowedCorsOrigins =     { "http://localhost:4200" },
+                    RedirectUris =           { $"http://{docStackAppHost}/callback" },
+                    PostLogoutRedirectUris = { $"http://{docStackAppHost}/home" },
+                    AllowedCorsOrigins =     { $"http://{docStackAppHost}" },
 
                     AllowedScopes =
                     {
@@ -107,32 +55,19 @@ namespace doc_identity
             };
         }
 
-        public static List<InMemoryUser> GetUsers()
+        public static List<InMemoryUser> GetUsers(IConfiguration config)
         {
             return new List<InMemoryUser>
             {
                 new InMemoryUser
                 {
                     Subject = "1",
-                    Username = "alice",
-                    Password = "password",
+                    Username = "admin",
+                    Password = config["Identity:AdminPassword"],
 
                     Claims = new []
                     {
-                        new Claim("name", "Alice"),
-                        new Claim("website", "https://alice.com")
-                    }
-                },
-                new InMemoryUser
-                {
-                    Subject = "2",
-                    Username = "bob",
-                    Password = "password",
-
-                    Claims = new []
-                    {
-                        new Claim("name", "Bob"),
-                        new Claim("website", "https://bob.com")
+                        new Claim("name", "admin")
                     }
                 }
             };
