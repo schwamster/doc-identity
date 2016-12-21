@@ -2,6 +2,8 @@
 using Xunit;
 using doc_identity;
 using FluentAssertions;
+using Moq;
+using Microsoft.Extensions.Configuration;
 
 namespace Tests
 {
@@ -10,8 +12,9 @@ namespace Tests
         [Fact]
         public void Test1() 
         {
-            var users =  doc_identity.Config.GetUsers();
-            users.Count.Should().Be(2);
+            var config = new Mock<IConfiguration>();
+            var users =  doc_identity.Config.GetUsers(config.Object);
+            users.Count.Should().Be(1);
         }
     }
 }
