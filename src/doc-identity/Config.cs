@@ -40,6 +40,7 @@ namespace doc_identity
                     ClientName = "doc-stack-app",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
+                    
 
                     RedirectUris =           { $"{docStackAppHost}/callback" },
                     PostLogoutRedirectUris = { $"{docStackAppHost}/home" },
