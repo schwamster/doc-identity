@@ -41,9 +41,9 @@ namespace doc_identity
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
 
-                    RedirectUris =           { $"http://{docStackAppHost}/callback" },
-                    PostLogoutRedirectUris = { $"http://{docStackAppHost}/home" },
-                    AllowedCorsOrigins =     { $"http://{docStackAppHost}" },
+                    RedirectUris =           { $"{docStackAppHost}/callback" },
+                    PostLogoutRedirectUris = { $"{docStackAppHost}/home" },
+                    AllowedCorsOrigins =     { $"{docStackAppHost}" },
 
                     AllowedScopes =
                     {
