@@ -62,14 +62,12 @@ namespace doc_identity
                     AllowAccessTokensViaBrowser = true,
                     
 
-                    RedirectUris =           { $"{docStackAppApiHost}/swagger/ui/o2c.html" },
-                    PostLogoutRedirectUris = { $"{docStackAppApiHost}/swagger/ui/index.html" },
+                    RedirectUris =           { $"{docStackAppApiHost}/swagger/o2c.html" },
+                    PostLogoutRedirectUris = { $"{docStackAppApiHost}/swagger/index.html" },
                     AllowedCorsOrigins =     { $"{docStackAppApiHost}" },
 
                     AllowedScopes =
                     {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
                         "doc-stack-app-api"
                     }
                 }
