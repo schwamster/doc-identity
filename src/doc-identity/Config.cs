@@ -32,6 +32,7 @@ namespace doc_identity
         public static IEnumerable<Client> GetClients(IConfiguration config)
         {
             var docStackAppHost = config["Identity:DocStackAppHost"];
+            var docStackAppApiHost = config["Identity:DocStackAppApiHost"];
             return new List<Client>
             {
                 new Client
@@ -45,6 +46,25 @@ namespace doc_identity
                     RedirectUris =           { $"{docStackAppHost}/callback" },
                     PostLogoutRedirectUris = { $"{docStackAppHost}/home" },
                     AllowedCorsOrigins =     { $"{docStackAppHost}" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "doc-stack-app-api"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "doc-stack-app-api-swagger",
+                    ClientName = "doc-stack-app-api-swagger",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    
+
+                    RedirectUris =           { $"{docStackAppApiHost}/swagger/ui/o2c.html" },
+                    PostLogoutRedirectUris = { $"{docStackAppApiHost}/swagger/ui/index.html" },
+                    AllowedCorsOrigins =     { $"{docStackAppApiHost}" },
 
                     AllowedScopes =
                     {
