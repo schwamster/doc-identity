@@ -12,11 +12,15 @@ namespace doc_identity
 {
     public static class Config
     {
+        public const string docStackAppApi = "doc-stack-app-api";
+        public const string docStoreApi = "doc-store";
+
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
             {
-                new ApiResource("doc-stack-app-api", "doc-stack-app-api")
+                new ApiResource(docStackAppApi, docStackAppApi),
+                new ApiResource(docStoreApi, docStoreApi)
             };
         }
 
@@ -51,7 +55,8 @@ namespace doc_identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "doc-stack-app-api"
+                        docStackAppApi,
+                        docStoreApi
                     }
                 },
                 new Client
@@ -68,7 +73,8 @@ namespace doc_identity
 
                     AllowedScopes =
                     {
-                        "doc-stack-app-api"
+                        docStackAppApi,
+                        docStoreApi
                     }
                 }
             };
