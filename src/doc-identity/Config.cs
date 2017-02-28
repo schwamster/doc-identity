@@ -73,6 +73,8 @@ namespace doc_identity
 
                     AllowedScopes =
                     {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
                         docStackAppApi,
                         docStoreApi
                     }
@@ -92,7 +94,8 @@ namespace doc_identity
 
                     Claims = new []
                     {
-                        new Claim("name", "admin")
+                        new Claim("name", "admin"),
+                        new Claim("client", "1337")
                     }
                 }
             };
