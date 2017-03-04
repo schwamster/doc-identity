@@ -15,6 +15,13 @@ namespace doc_identity
         public const string docStackAppApi = "doc-stack-app-api";
         public const string docStoreApi = "doc-store";
 
+        public const string tenant = "tenant";
+        public const string tenantId = "tenant_id";
+
+        public const string tenantName = "tenant_name";
+
+        public const string role = "role";
+
         public static IEnumerable<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
@@ -30,6 +37,8 @@ namespace doc_identity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource(tenant, "Tenant Information", new List<string>{tenantId, tenantName}),
+                new IdentityResource(role, "Role", new List<string>{"role"})
             };
         }
 
@@ -39,6 +48,21 @@ namespace doc_identity
             var docStackAppApiHost = config["Identity:DocStackAppApiHost"];
             return new List<Client>
             {
+                new Client
+                {
+                    ClientId = "service_to_service",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    ClientSecrets =
+                    {
+                        new Secret(config["Identity:ServiceToServiceSecret"].Sha256())
+                    },
+                    AllowedScopes = 
+                    { 
+                        docStackAppApi,
+                        docStoreApi
+                    }
+                },
                 new Client
                 {
                     ClientId = "doc-stack-app",
@@ -55,6 +79,9 @@ namespace doc_identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        tenant,
+                        role,
+
                         docStackAppApi,
                         docStoreApi
                     }
@@ -75,6 +102,9 @@ namespace doc_identity
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        tenant,
+                        role,
+
                         docStackAppApi,
                         docStoreApi
                     }
@@ -94,8 +124,9 @@ namespace doc_identity
 
                     Claims = new []
                     {
-                        new Claim("name", "admin"),
-                        new Claim("client", "1337")
+                        new Claim("role", "admin"),
+                        new Claim("tenant_id", "1337"),
+                        new Claim("tenant_name", "internal")
                     }
                 }
             };
